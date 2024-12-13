@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"encoding/json"
@@ -6,10 +6,6 @@ import (
 	"net/http"
 	"time"
 )
-
-func main() {
-	ApiRequest()
-}
 
 type CartesPokemon struct {
 	Category    string   `json:"category"`

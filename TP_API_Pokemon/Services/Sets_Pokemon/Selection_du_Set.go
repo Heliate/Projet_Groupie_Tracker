@@ -1,4 +1,4 @@
-package Services
+package services
 
 import (
 	"encoding/json"
@@ -6,10 +6,6 @@ import (
 	"net/http"
 	"time"
 )
-
-func main() {
-	ApiRequest()
-}
 
 type SetPokemon struct {
 	CardCount struct {
