@@ -1,0 +1,19 @@
+{{define "cardsBySet"}}
+<!DOCTYPE html>
+<html lang="fr"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cards</title>
+</head>
+<body>
+    <h1>Set {{.NameSet}} :</h1>
+    {{range .Cards}}
+        <div>
+            <h2>{{.Name}} || {{.ID}}</h2>
+            <img src="{{.Image}}/high.webp" alt="image du pokemon {{.Name}}">
+        </div>
+    {{end}}
+</body>
+</html>
+{{end}}

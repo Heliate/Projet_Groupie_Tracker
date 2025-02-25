@@ -1,4 +1,4 @@
-package services
+package Sets_Pokemon
 
 import (
 	"encoding/json"
@@ -17,7 +17,8 @@ type SetPokemon struct {
 	ReleaseDate string `json:"releaseDate"`
 }
 
-func ApiRequest() {
+func SetRequest() []SetPokemon {
+	result := []SetPokemon{}
 
 	url := "https://api.tcgdex.net/v2/fr/sets/swsh1"
 
@@ -31,35 +32,29 @@ func ApiRequest() {
 		req, errReq := http.NewRequest(http.MethodGet, url, nil)
 		if errReq != nil {
 			fmt.Printf("Requête - Erreur lors de l'initialisation de la requête : %s\n", errReq.Error())
-			return
+			return []SetPokemon{}
 		}
 
 		res, errRes := httpClient.Do(req)
 		if errRes != nil {
 			fmt.Printf("Requête - Erreur lors de l'exécution de la requête : %s\n", errRes.Error())
-			return
+			return []SetPokemon{}
 		}
 
 		defer res.Body.Close()
+
 		if res.StatusCode != http.StatusOK {
 			fmt.Printf("Réponse - Erreur code HTTP : %d, message : %s\n", res.StatusCode, res.Status)
-			return
+			return []SetPokemon{}
 		}
 
-		var decodeData SetPokemon
+		var decodeData SetPokemon = SetPokemon{}
 		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)
 		if errDecode != nil {
 			fmt.Printf("Decode - Erreur lors du décodage des données : %s\n", errDecode.Error())
-			return
+			return []SetPokemon{}
 		}
-
-		fmt.Printf("Set récupéré :\n")
-		fmt.Printf("Nom du Set : %s\n", decodeData.Name)
-		fmt.Printf("Série du Set : %s\n", decodeData.ID)
-		fmt.Printf("Date de sortie : %s\n", decodeData.ReleaseDate)
-		fmt.Printf("Image du Set : %s\n", decodeData.Logo)
-		fmt.Printf("Nombre total de cartes : %d\n", decodeData.CardCount.Total)
-		fmt.Printf("\n")
-
+		result = append(result, decodeData)
 	}
+	return result
 }

@@ -1,13 +1,11 @@
 package main
 
 import (
-	"Api/config"
-	"log"
-	"net"
-	"net/http"
+	"Api/routes"
+	"Api/templates"
 )
 
 func main() {
-	log.Printf("Serveur démarré sur http://%s\n", net.JoinHostPort(config.App.Server.URL, config.App.Server.Port))
-	log.Fatal(http.ListenAndServe(net.JoinHostPort(config.App.Server.URL, config.App.Server.Port), nil))
+	templates.InitTemplates()
+	routes.MainRoutes()
 }
