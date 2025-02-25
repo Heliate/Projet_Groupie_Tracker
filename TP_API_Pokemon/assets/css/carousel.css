@@ -1,0 +1,125 @@
+/* Styles avec mise à l'échelle uniforme des images */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 400px;
+    margin: 30px auto;
+    perspective: 1200px;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item {
+    position: absolute;
+    width: 180px;
+    height: 250px;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    transform: translate(-50%, -50%) rotateY(0deg) translateZ(0);
+    backface-visibility: hidden;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-item img {
+    /* Solution pour forcer la même taille visuelle de l'image */
+    max-width: 80%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+    object-fit: scale-down;
+    background-color: white;
+    display: block;
+    margin: 0 auto;
+}
+
+.carousel-item.selected {
+    transform: translate(-50%, -50%) rotateY(0deg) translateZ(200px) scale(1.2);
+    z-index: 10;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.controls {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 20;
+}
+
+.controls button {
+    background-color: #ffcb05;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.controls button:hover {
+    background-color: #e6b800;
+    transform: scale(1.05);
+}
+
+.controls button:active {
+    transform: scale(0.98);
+}
+
+.opening-animation {
+    animation: openBooster 1s forwards;
+}
+
+@keyframes openBooster {
+    0% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.2); }
+    50% { transform: translate(-50%, -50%) rotateY(180deg) scale(1.5); }
+    100% { transform: translate(-50%, -50%) rotateY(360deg) scale(1.2); }
+}
+
+.open-button {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #3b5ba7;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+}
+
+.open-button:hover {
+    background-color: #2a4175;
+    transform: translateX(-50%) scale(1.05);
+}
+
+.open-button:active {
+    transform: translateX(-50%) scale(0.98);
+}

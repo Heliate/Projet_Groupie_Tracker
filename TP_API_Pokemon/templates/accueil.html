@@ -4,20 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link> rel="stylesheet" href="style.css"<link>
-    <title>Accueil</title>
+    <link rel="stylesheet" href="/static/css/carousel.css">    <title>Accueil</title>
 </head>
 <body>
     <header>
         <div></div>
     </header>
-    <div>
-    <a href="/cards?set=swsh1">Swsh1</a>
-    <a href="/cards?set=swsh2">Swsh2</a>
-    <a href="/cards?set=swsh3">Swsh3</a>
-    <a href="/cards?set=swsh4">Swsh4</a>
-    <a href="/cards?set=swsh1"><img src="/static/images/swsh1.png" alt=""></a>
+    <div class="carousel-container">
+        <div class="carousel" id="boosterCarousel">
+            <!-- Les boosters seront ajoutés ici par JavaScript -->
+        </div>
+        <div class="controls">
+            <button id="prevBtn">◀ Précédent</button>
+            <button id="nextBtn">Suivant ▶</button>
+        </div>
+        <button class="open-button" id="openBooster">Ouvrir le Booster</button>
     </div>
+
+    <script src="/static/js/carousel.js"></script> 
 </body>
 </html>
 {{end}}
