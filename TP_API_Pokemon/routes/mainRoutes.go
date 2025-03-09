@@ -9,6 +9,7 @@ func MainRoutes() {
 	SetsPokemonRoutes()
 	cardsRoutes()
 	accueilRoutes()
+	cguRoutes()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./assets/"))))
 

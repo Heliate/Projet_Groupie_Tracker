@@ -1,18 +1,27 @@
 {{define "accueil"}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/carousel.css">    <title>Accueil</title>
+    <link rel="stylesheet" href="/static/css/accueil.css">
+    <title>Accueil - PokeBooster</title>
 </head>
 <body>
     <header>
-        <div></div>
+        <div>
+            <img src="/static/images/logo_Pokemon.png" alt="Logo Pokemon">
+            <H1>PokeBooster</H1>
+            <!-- Ajout d'un élément vide pour maintenir le space-between si nécessaire -->
+            <div style="width: 50px;"></div>
+        </div>
     </header>
+    
     <div class="carousel-container">
-        <div class="carousel" id="boosterCarousel">
-            <!-- Les boosters seront ajoutés ici par JavaScript -->
+        <div class="carousel">
+            <div id="boosterCarousel">
+                <!-- Les éléments seront créés dynamiquement par JavaScript -->
+            </div>
         </div>
         <div class="controls">
             <button id="prevBtn">◀ Précédent</button>
@@ -20,6 +29,10 @@
         </div>
         <button class="open-button" id="openBooster">Ouvrir le Booster</button>
     </div>
+
+    <footer>
+        <p>&copy; 2025 PokeBooster - Projet étudiant | <a href="/cgu">Conditions Générales d'Utilisation</a></p>
+    </footer>
 
     <script src="/static/js/carousel.js"></script> 
 </body>

@@ -20,11 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     
     let currentIndex = 0;
-    let radius = 300; // Rayon du cercle
+    let radius = 400; // Rayon augmenté pour plus d'espace horizontal
     let animating = false;
     
     // Créer les éléments du carrousel
     function createCarouselItems() {
+        // Vider le carousel d'abord
+        carousel.innerHTML = '';
+        
         boosterTypes.forEach((booster, index) => {
             const item = document.createElement('div');
             item.className = 'carousel-item';
@@ -37,19 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             item.appendChild(img);
             carousel.appendChild(item);
-            
-            // Ajouter un gestionnaire d'événements de clic
-            item.addEventListener('click', function() {
-                if (!animating) {
-                    const itemId = parseInt(this.dataset.id);
-                    const targetIndex = boosterTypes.findIndex(b => b.id === itemId);
-                    rotateToIndex(targetIndex);
-                }
-            });
         });
         
         // Positionner tous les éléments
         updateCarousel();
+        
+        // Afficher le bouton d'ouverture
+        if (openBtn) openBtn.style.display = 'block';
     }
     
     // Mettre à jour la position des éléments du carrousel
@@ -69,10 +66,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Appliquer la transformation
             item.style.transform = `translate(calc(-50% + ${x}px), -50%) translateZ(${z}px)`;
             
+            // Ajuster l'opacité en fonction de la distance
+            const opacity = Math.max(0.3, 1 - Math.abs(angle) / 180);
+            item.style.opacity = opacity;
+            
+            // Ajuster le z-index pour que les éléments au premier plan soient au-dessus
+            const zIndex = Math.round(100 - Math.abs(angle));
+            item.style.zIndex = zIndex;
+            
             // Vérifier si c'est l'élément sélectionné (à l'avant)
             if (index === currentIndex) {
                 item.classList.add('selected');
-                openBtn.style.display = 'block';
             } else {
                 item.classList.remove('selected');
             }
@@ -134,9 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Gestionnaires d'événements
-    prevBtn.addEventListener('click', rotatePrev);
-    nextBtn.addEventListener('click', rotateNext);
-    openBtn.addEventListener('click', openBooster);
+    if (prevBtn) prevBtn.addEventListener('click', rotatePrev);
+    if (nextBtn) nextBtn.addEventListener('click', rotateNext);
+    if (openBtn) openBtn.addEventListener('click', openBooster);
     
     // Support clavier
     document.addEventListener('keydown', function(e) {
@@ -149,6 +153,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Support tactile pour mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    carousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    carousel.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const minSwipeDistance = 50;
+        if (touchEndX < touchStartX - minSwipeDistance) {
+            // Swipe vers la gauche
+            rotateNext();
+        } else if (touchEndX > touchStartX + minSwipeDistance) {
+            // Swipe vers la droite
+            rotatePrev();
+        }
+    }
+    
     // Initialiser le carrousel
     createCarouselItems();
+    
+    // Ajuster le rayon selon la taille de l'écran
+    function adjustRadius() {
+        const containerWidth = document.querySelector('.carousel').clientWidth;
+        radius = Math.min(400, containerWidth * 0.45);
+        updateCarousel();
+    }
+    
+    // Appeler au redimensionnement
+    window.addEventListener('resize', adjustRadius);
+    
+    // Appeler une fois au chargement
+    adjustRadius();
 });
