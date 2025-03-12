@@ -7,13 +7,208 @@
     <title>cards</title>
 </head>
 <body>
+    <header>
+        <div>
+            <img src="/static/images/logo_Pokemon.png" alt="Logo Pokemon">
+            <H1>PokeBooster</H1>
+            <div style="width: 50px;"></div>
+        </div>
+    </header>
+    <div id="overlay"></div>
+    <div id="filterMenu">
+        <form id="filterForm">
+            <h4>Type du Pokémon :</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="type_filter" value="Incolore"> Incolore
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Obscurité"> Obscurité
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Dragon"> Dragon
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Fée"> Fée
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Combat"> Combat
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Feu"> Feu
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Plante"> Plante
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Électrique"> Électrique
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Métal"> Métal
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Psy"> Psy
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Eau"> Eau
+                </label>
+            </div>
+            <h4>Rareté :</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="HIGH-TECH rare"> HIGH-TECH rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Magnifique"> Magnifique
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Collection Classique"> Collection Classique
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Commune"> Commune
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Double rare"> Double rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Dresseur Full Art"> Dresseur Full Art
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Holo Rare"> Holo Rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Holo Rare V"> Holo Rare V
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Holo Rare VMAX"> Holo Rare VMAX
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Holo Rare VSTAR"> Holo Rare VSTAR
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Hyper rare"> Hyper rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Illustration rare"> Illustration rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="LÉGENDE"> LÉGENDE
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Sans Rareté"> Sans Rareté
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Radieux Rare"> Radieux Rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Rare"> Rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Rare Holo"> Rare Holo
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Rare Holo LV.X"> Rare Holo LV.X
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Rare Prime"> Rare Prime
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Magnifique rare"> Magnifique rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Shiny rare"> Shiny rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Shiny rare V"> Shiny rare V
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Shiny rare VMAX"> Shiny rare VMAX
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Chromatique ultra rare"> Chromatique ultra rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Illustration spéciale rare"> Illustration spéciale rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Ultra Rare"> Ultra Rare
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="Peu Commune"> Peu Commune
+                </label>
+            </div>
+            <h4>Trier par :</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="radio" name="sort_filter" value="1"> Le plus d'HP
+                </label>
+                <label>
+                    <input type="radio" name="sort_filter" value="0"> Le moins d'HP
+                </label>
+            </div>
+            <h4>Faiblesse du Pokémon :</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Incolore"> Incolore
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Obscurité"> Obscurité
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Dragon"> Dragon
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Fée"> Fée
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Combat"> Combat
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Feu"> Feu
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Plante"> Plante
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Électrique"> Électrique
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Métal"> Métal
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Psy"> Psy
+                </label>
+                <label>
+                    <input type="checkbox" name="weakness_filter" value="Eau"> Eau
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="button" id="resetFiltersButton">Réinitialiser</button>
+                <button type="button" id="applyFiltersButton">Appliquer</button>
+            </div>
+        </form>
+    </div>
+    <script src="/static/js/cardsFilter.js"></script>
     <h1>Set {{.NameSet}} :</h1>
     {{range .Cards}}
         <div>
             <h2>{{.Name}} || {{.ID}}</h2>
             <img src="{{.Image}}/high.webp" alt="image du pokemon {{.Name}}">
+            <p>{{.Rarity}}</p>
         </div>
     {{end}}
+    <div class="switch-Page">
+        {{if gt .CurrentPage 1}}
+        <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+        {{end}}
+        <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+        {{if lt .CurrentPage .TotalPages}}
+        <a href="?page={{add .CurrentPage 1}}">Next</a>
+        {{end}}
+    </div>
+    <footer>
+        <p>&copy; 2025 PokeBooster - Projet étudiant | <a href="/cgu">Conditions Générales d'Utilisation</a></p>
+    </footer>
 </body>
 </html>
 {{end}}

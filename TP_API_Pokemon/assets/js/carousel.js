@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     
     let currentIndex = 0;
-    let radius = 400; // Rayon augmenté pour plus d'espace horizontal
+    let radius = 400; 
     let animating = false;
     
     // Créer les éléments du carrousel

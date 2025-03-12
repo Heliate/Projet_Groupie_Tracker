@@ -6,7 +6,7 @@ import (
 )
 
 func MainRoutes() {
-	SetsPokemonRoutes()
+	// SetsPokemonRoutes()
 	cardsRoutes()
 	accueilRoutes()
 	cguRoutes()
