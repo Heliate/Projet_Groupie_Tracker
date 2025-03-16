@@ -11,23 +11,22 @@
     <header>
         <div>
             <a href="/">
-                <img src="/static/images/logo_Pokemon.png" alt="Logo" width="117">
+                <img src="/static/images/logo_Pokemon.png" alt="Logo Pokémon">
             </a>
-                <form class="search-container" action="" method="GET">
-                    <input type="text" name="search" placeholder="Rechercher un Pokémon par son nom..." value="{{.SearchTerm}}">
-                    <button type="submit">Rechercher</button>
-                    {{if .SearchTerm}}
-                        <a href="?set={{.NameSet}}">Effacer la recherche</a>
-                    {{end}}
-                </form>
-                
+            
+            <form class="search-container" action="" method="GET">
+                <input type="text" name="search" placeholder="Rechercher un Pokémon par son nom..." value="{{.SearchTerm}}">
+                <button type="submit">Rechercher</button>
+                {{if .SearchTerm}}
+                    <a href="?set={{.NameSet}}">Effacer</a>
+                {{end}}
+            </form>
+            
             <h1>PokeBooster</h1>
-            <div style="width: 50px;"></div>
         </div>
     </header>
 
     <main>
-        <!-- Liens de navigation -->
         <div class="nav-links">
             <a href="/">Accueil</a>
             <a href="/favoris">Mes Favoris</a>

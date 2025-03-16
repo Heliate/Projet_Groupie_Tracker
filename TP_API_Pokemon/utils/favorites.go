@@ -23,26 +23,25 @@ type FavoritesManager struct {
 // Instance unique du gestionnaire de favoris
 var favManager *FavoritesManager
 
-// Initialiser le gestionnaire de favoris
+// Initialise le gestionnaire de favoris avec le chemin du fichier de stockage
 func InitFavoritesManager(filePath string) {
 	favManager = &FavoritesManager{
 		filePath: filePath,
 	}
 }
 
-// Obtenir l'instance du gestionnaire de favoris
+// Retourne l'instance du gestionnaire de favoris
 func GetFavoritesManager() *FavoritesManager {
 	return favManager
 }
 
-// Charger les favoris d'un utilisateur depuis le fichier JSON
+// Charge les favoris d'un utilisateur depuis le fichier JSON
 func (fm *FavoritesManager) LoadUserFavorites(userID string) (UserFavorites, error) {
 	fm.mutex.RLock()
 	defer fm.mutex.RUnlock()
 
-	// Vérifier si le fichier existe
+	// Crée le fichier s'il n'existe pas
 	if _, err := os.Stat(fm.filePath); os.IsNotExist(err) {
-		// Si le fichier n'existe pas, créer un fichier vide avec une structure de base
 		initialData := make(map[string]UserFavorites)
 		initialData[userID] = UserFavorites{
 			UserID: userID,
@@ -62,19 +61,19 @@ func (fm *FavoritesManager) LoadUserFavorites(userID string) (UserFavorites, err
 		return initialData[userID], nil
 	}
 
-	// Lire le fichier existant
+	// Lit le fichier existant
 	fileData, err := os.ReadFile(fm.filePath)
 	if err != nil {
 		return UserFavorites{}, fmt.Errorf("erreur lors de la lecture du fichier de favoris: %v", err)
 	}
 
-	// Désérialiser les données
+	// Désérialise les données
 	allFavorites := make(map[string]UserFavorites)
 	if err := json.Unmarshal(fileData, &allFavorites); err != nil {
 		return UserFavorites{}, fmt.Errorf("erreur lors de la désérialisation des favoris: %v", err)
 	}
 
-	// Récupérer les favoris de l'utilisateur, ou créer une entrée vide si elle n'existe pas
+	// Crée une entrée vide si l'utilisateur n'existe pas
 	favorites, exists := allFavorites[userID]
 	if !exists {
 		favorites = UserFavorites{
@@ -83,7 +82,6 @@ func (fm *FavoritesManager) LoadUserFavorites(userID string) (UserFavorites, err
 		}
 		allFavorites[userID] = favorites
 
-		// Sauvegarder la nouvelle structure
 		jsonData, err := json.MarshalIndent(allFavorites, "", "  ")
 		if err != nil {
 			return UserFavorites{}, fmt.Errorf("erreur lors de la mise à jour du fichier de favoris: %v", err)
@@ -98,16 +96,15 @@ func (fm *FavoritesManager) LoadUserFavorites(userID string) (UserFavorites, err
 	return favorites, nil
 }
 
-// Ajouter une carte aux favoris d'un utilisateur
+// Ajoute une carte aux favoris d'un utilisateur
 func (fm *FavoritesManager) AddCardToFavorites(userID string, card Cartes_Pokemon.CartesPokemon) error {
 	fm.mutex.Lock()
 	defer fm.mutex.Unlock()
 
-	// Lire les favoris existants
+	// Lit ou crée le fichier de favoris
 	fileData, err := os.ReadFile(fm.filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			// Si le fichier n'existe pas, créer un fichier avec la nouvelle carte
 			allFavorites := make(map[string]UserFavorites)
 			allFavorites[userID] = UserFavorites{
 				UserID: userID,
@@ -124,13 +121,13 @@ func (fm *FavoritesManager) AddCardToFavorites(userID string, card Cartes_Pokemo
 		return fmt.Errorf("erreur lors de la lecture du fichier de favoris: %v", err)
 	}
 
-	// Désérialiser les données
+	// Désérialise les données
 	allFavorites := make(map[string]UserFavorites)
 	if err := json.Unmarshal(fileData, &allFavorites); err != nil {
 		return fmt.Errorf("erreur lors de la désérialisation des favoris: %v", err)
 	}
 
-	// Récupérer les favoris de l'utilisateur, ou créer une entrée vide si elle n'existe pas
+	// Récupère ou crée les favoris de l'utilisateur
 	favorites, exists := allFavorites[userID]
 	if !exists {
 		favorites = UserFavorites{
@@ -139,19 +136,18 @@ func (fm *FavoritesManager) AddCardToFavorites(userID string, card Cartes_Pokemo
 		}
 	}
 
-	// Vérifier si la carte existe déjà dans les favoris
+	// Vérifie si la carte existe déjà
 	for _, existingCard := range favorites.Cards {
 		if existingCard.ID == card.ID {
-			// La carte est déjà dans les favoris, ne rien faire
 			return nil
 		}
 	}
 
-	// Ajouter la nouvelle carte aux favoris
+	// Ajoute la carte aux favoris
 	favorites.Cards = append(favorites.Cards, card)
 	allFavorites[userID] = favorites
 
-	// Sauvegarder la structure mise à jour
+	// Sauvegarde les modifications
 	jsonData, err := json.MarshalIndent(allFavorites, "", "  ")
 	if err != nil {
 		return fmt.Errorf("erreur lors de la mise à jour du fichier de favoris: %v", err)
@@ -160,31 +156,30 @@ func (fm *FavoritesManager) AddCardToFavorites(userID string, card Cartes_Pokemo
 	return os.WriteFile(fm.filePath, jsonData, 0644)
 }
 
-// Supprimer une carte des favoris d'un utilisateur
+// Supprime une carte des favoris d'un utilisateur
 func (fm *FavoritesManager) RemoveCardFromFavorites(userID string, cardID string) error {
 	fm.mutex.Lock()
 	defer fm.mutex.Unlock()
 
-	// Lire les favoris existants
+	// Lit le fichier de favoris
 	fileData, err := os.ReadFile(fm.filePath)
 	if err != nil {
 		return fmt.Errorf("erreur lors de la lecture du fichier de favoris: %v", err)
 	}
 
-	// Désérialiser les données
+	// Désérialise les données
 	allFavorites := make(map[string]UserFavorites)
 	if err := json.Unmarshal(fileData, &allFavorites); err != nil {
 		return fmt.Errorf("erreur lors de la désérialisation des favoris: %v", err)
 	}
 
-	// Récupérer les favoris de l'utilisateur
+	// Vérifie si l'utilisateur a des favoris
 	favorites, exists := allFavorites[userID]
 	if !exists {
-		// L'utilisateur n'a pas de favoris, rien à supprimer
 		return nil
 	}
 
-	// Créer une nouvelle liste sans la carte à supprimer
+	// Filtre la liste pour retirer la carte spécifiée
 	updatedCards := []Cartes_Pokemon.CartesPokemon{}
 	for _, card := range favorites.Cards {
 		if card.ID != cardID {
@@ -192,11 +187,11 @@ func (fm *FavoritesManager) RemoveCardFromFavorites(userID string, cardID string
 		}
 	}
 
-	// Mettre à jour la liste des cartes
+	// Met à jour la liste des cartes
 	favorites.Cards = updatedCards
 	allFavorites[userID] = favorites
 
-	// Sauvegarder la structure mise à jour
+	// Sauvegarde les modifications
 	jsonData, err := json.MarshalIndent(allFavorites, "", "  ")
 	if err != nil {
 		return fmt.Errorf("erreur lors de la mise à jour du fichier de favoris: %v", err)
@@ -205,16 +200,18 @@ func (fm *FavoritesManager) RemoveCardFromFavorites(userID string, cardID string
 	return os.WriteFile(fm.filePath, jsonData, 0644)
 }
 
-// Vérifier si une carte est dans les favoris d'un utilisateur
+// Vérifie si une carte est dans les favoris d'un utilisateur
 func (fm *FavoritesManager) IsCardInFavorites(userID string, cardID string) (bool, error) {
 	fm.mutex.RLock()
 	defer fm.mutex.RUnlock()
 
+	// Charge les favoris de l'utilisateur
 	favorites, err := fm.LoadUserFavorites(userID)
 	if err != nil {
 		return false, err
 	}
 
+	// Recherche la carte dans les favoris
 	for _, card := range favorites.Cards {
 		if card.ID == cardID {
 			return true, nil

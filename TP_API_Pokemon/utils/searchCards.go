@@ -6,6 +6,7 @@ import (
 	"sort"
 )
 
+// Structure qui contient tous les critères de filtrage
 type cardFilters struct {
 	Rarity   []string
 	Type     []string
@@ -13,6 +14,7 @@ type cardFilters struct {
 	SortBy   string
 }
 
+// Récupère les filtres depuis les paramètres de la requête HTTP
 func GetcardFilters(r *http.Request) cardFilters {
 	filters := cardFilters{
 		Rarity:   r.URL.Query()["rarity_filter"],
@@ -23,8 +25,9 @@ func GetcardFilters(r *http.Request) cardFilters {
 	return filters
 }
 
+// Applique tous les filtres à la liste de cartes
 func ApplycardFilters(filters cardFilters, Allcards []Cartes_Pokemon.CartesPokemon) []Cartes_Pokemon.CartesPokemon {
-	// Si aucun filtre n'est appliqué, retourner toutes les cartes
+	// Si aucun filtre n'est appliqué, retourne toutes les cartes
 	if len(filters.Rarity) == 0 && len(filters.Type) == 0 && len(filters.Weakness) == 0 && filters.SortBy == "" {
 		return Allcards
 	}
@@ -33,28 +36,25 @@ func ApplycardFilters(filters cardFilters, Allcards []Cartes_Pokemon.CartesPokem
 	hasRarityFilters := len(filters.Rarity) > 0
 	hasWeaknessFilters := len(filters.Weakness) > 0
 
-	// Appliquer les filtres un par un
-	var filteredCards []Cartes_Pokemon.CartesPokemon
-
 	// Commence avec toutes les cartes
-	filteredCards = Allcards
+	filteredCards := Allcards
 
-	// Appliquer les filtres de rareté si présents
+	// Applique les filtres de rareté si présents
 	if hasRarityFilters {
 		filteredCards = filtercardsByRarity(filteredCards, filters.Rarity)
 	}
 
-	// Appliquer les filtres de type si présents
+	// Applique les filtres de type si présents
 	if hasTypeFilters {
 		filteredCards = FiltercardsByTypes(filteredCards, filters.Type)
 	}
 
-	// Appliquer les filtres de faiblesse si présents
+	// Applique les filtres de faiblesse si présents
 	if hasWeaknessFilters {
 		filteredCards = FiltercardsByWeakness(filteredCards, filters.Weakness)
 	}
 
-	// Tri des cartes si demandé et si des cartes existent
+	// Trie les cartes si demandé
 	if filters.SortBy != "" && len(filteredCards) > 0 {
 		switch filters.SortBy {
 		case "0":
@@ -67,6 +67,7 @@ func ApplycardFilters(filters cardFilters, Allcards []Cartes_Pokemon.CartesPokem
 	return filteredCards
 }
 
+// Filtre les cartes par rareté
 func filtercardsByRarity(cards []Cartes_Pokemon.CartesPokemon, rarities []string) []Cartes_Pokemon.CartesPokemon {
 	filteredcards := []Cartes_Pokemon.CartesPokemon{}
 	for _, card := range cards {
@@ -80,6 +81,7 @@ func filtercardsByRarity(cards []Cartes_Pokemon.CartesPokemon, rarities []string
 	return filteredcards
 }
 
+// Filtre les cartes par faiblesse
 func FiltercardsByWeakness(cards []Cartes_Pokemon.CartesPokemon, types []string) []Cartes_Pokemon.CartesPokemon {
 	filteredcards := []Cartes_Pokemon.CartesPokemon{}
 	for _, card := range cards {
@@ -95,6 +97,7 @@ func FiltercardsByWeakness(cards []Cartes_Pokemon.CartesPokemon, types []string)
 	return filteredcards
 }
 
+// Trie les cartes par HP croissant
 func filtercardsByHPCresc(cards []Cartes_Pokemon.CartesPokemon) []Cartes_Pokemon.CartesPokemon {
 	sort.Slice(cards, func(i, j int) bool {
 		return cards[i].Hp < cards[j].Hp
@@ -102,6 +105,7 @@ func filtercardsByHPCresc(cards []Cartes_Pokemon.CartesPokemon) []Cartes_Pokemon
 	return cards
 }
 
+// Trie les cartes par HP décroissant
 func filtercardsByHPDecresc(cards []Cartes_Pokemon.CartesPokemon) []Cartes_Pokemon.CartesPokemon {
 	sort.Slice(cards, func(i, j int) bool {
 		return cards[i].Hp > cards[j].Hp
@@ -109,6 +113,7 @@ func filtercardsByHPDecresc(cards []Cartes_Pokemon.CartesPokemon) []Cartes_Pokem
 	return cards
 }
 
+// Filtre les cartes par type
 func FiltercardsByTypes(cards []Cartes_Pokemon.CartesPokemon, types []string) []Cartes_Pokemon.CartesPokemon {
 	filteredcards := []Cartes_Pokemon.CartesPokemon{}
 

@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Configure les routes pour la gestion des favoris
 func favorisRoutes() {
 	// Route pour afficher la page des favoris
 	http.HandleFunc("/favoris", controllers.FavorisController)

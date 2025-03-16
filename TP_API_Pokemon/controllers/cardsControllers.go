@@ -8,7 +8,6 @@ import (
 	"strconv"
 )
 
-// Structure pour étendre CartesPokemon avec l'information de favoris
 type CardPokemonWithFavorite struct {
 	Cartes_Pokemon.CartesPokemon
 	IsFavorite bool
@@ -16,7 +15,7 @@ type CardPokemonWithFavorite struct {
 
 type PageCardsBySet struct {
 	NameSet         string
-	Cards           []CardPokemonWithFavorite // Modifié pour utiliser CardPokemonWithFavorite
+	Cards           []CardPokemonWithFavorite
 	TotalPages      int
 	CurrentPage     int
 	NoCardFound     bool
@@ -24,67 +23,64 @@ type PageCardsBySet struct {
 	SearchTerm      string
 }
 
-// Récupère toutes les cartes d'un seul set
+// Contrôleur qui gère l'affichage des cartes d'un set avec filtrage, recherche, pagination et état des favoris
 func CardsControllers(w http.ResponseWriter, r *http.Request) {
-	// Dans un environnement réel, vous récupéreriez l'ID utilisateur depuis la session
+	// Simuler un ID utilisateur
 	userID := "user123"
 
+	// Récupérer le set demandé ou utiliser le set par défaut
 	nameSet := r.FormValue("set")
 	if nameSet == "" {
 		nameSet = "swsh1"
 	}
 
-	// Récupérer le terme de recherche s'il existe
+	// Récupérer le terme de recherche
 	searchTerm := r.URL.Query().Get("search")
 
+	// Récupérer toutes les cartes du set
 	listCards := Cartes_Pokemon.CardsBySetRequest(nameSet)
 	if len(listCards) == 0 {
 		http.Error(w, "Aucune carte trouvée", http.StatusNotFound)
 		return
 	}
 
-	// Initialiser les flags pour les messages d'erreur
+	// Initialiser les flags pour les messages
 	noSearchResults := false
 	noCardFound := false
 
-	// Appliquer la recherche par nom si un terme de recherche est fourni
+	// Filtrer par recherche si terme fourni
 	filteredBySearch := listCards
 	if searchTerm != "" {
 		filteredBySearch = utils.SearchCardsByName(listCards, searchTerm)
-		// Vérifier si la recherche n'a donné aucun résultat
 		if len(filteredBySearch) == 0 {
 			noSearchResults = true
-			// Si pas de résultats de recherche, on continue avec une liste vide
 		}
 	}
 
+	// Récupérer la page demandée
 	page := r.URL.Query().Get("page")
 	value, err := strconv.Atoi(page)
 	if err != nil || value < 1 {
 		value = 1
 	}
 
+	// Récupérer et appliquer les filtres
 	filter := utils.GetcardFilters(r)
-
-	// Vérifier si des filtres ont été appliqués
 	hasFilters := len(filter.Rarity) > 0 || len(filter.Type) > 0 || len(filter.Weakness) > 0 || filter.SortBy != ""
 
-	// Appliquer les filtres après la recherche (seulement si la recherche a donné des résultats)
 	filterCard := filteredBySearch
 	if !noSearchResults && hasFilters {
 		filterCard = utils.ApplycardFilters(filter, filteredBySearch)
-		// Si aucune carte ne correspond aux filtres après une recherche réussie
 		if len(filterCard) == 0 {
 			noCardFound = true
 		}
 	}
 
+	// Paginer les résultats
 	cards, totalPages, pages := utils.PaginateCards(filterCard, value, 30)
 
-	// Vérifier si le gestionnaire de favoris est initialisé
+	// Récupérer l'état des favoris pour chaque carte
 	favManager := utils.GetFavoritesManager()
-
-	// Convertir les cartes en cartes avec statut de favoris
 	cardsWithFavorite := make([]CardPokemonWithFavorite, len(cards))
 	for i, card := range cards {
 		isFavorite := false
@@ -97,6 +93,7 @@ func CardsControllers(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Préparer les données et afficher le template
 	data := PageCardsBySet{
 		NameSet:         nameSet,
 		Cards:           cardsWithFavorite,

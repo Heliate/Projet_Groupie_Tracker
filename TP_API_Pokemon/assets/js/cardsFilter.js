@@ -1,28 +1,30 @@
-// Attendre que le DOM soit complètement chargé
+// Attendre que le DOM soit complètement chargé avant d'exécuter le code
 document.addEventListener('DOMContentLoaded', function() {
-    // Sélectionner les éléments du DOM
+    // Sélectionner les boutons de filtrage du DOM
     const applyFiltersButton = document.getElementById('applyFiltersButton');
     const resetFiltersButton = document.getElementById('resetFiltersButton');
 
-    // Appliquer les filtres et mettre à jour l'URL
+    // Gestionnaire d'événement pour le bouton d'application des filtres
     applyFiltersButton.addEventListener('click', () => {
+        // Récupération des données du formulaire de filtrage
         const formData = new FormData(document.getElementById('filterForm'));
         const rarityFilter = formData.getAll('rarity_filter');
         const typeFilter = formData.getAll('type_filter');
         const weaknessFilter = formData.getAll('weakness_filter');
         const sortFilter = formData.get('sort_filter');
 
+        // Création d'un objet URL pour manipuler les paramètres d'URL
         const url = new URL(window.location);
         
-        // Préserver le paramètre set et page
+        // Préserver les paramètres importants existants (set, page, recherche)
         const setParam = url.searchParams.get('set');
         const pageParam = url.searchParams.get('page');
         const searchParam = url.searchParams.get('search');
         
-        // Supprimer tous les paramètres
+        // Supprimer tous les paramètres actuels pour repartir proprement
         url.search = '';
         
-        // Restaurer les paramètres importants
+        // Restaurer les paramètres importants qui doivent être conservés
         if (setParam) {
             url.searchParams.set('set', setParam);
         }
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             url.searchParams.set('search', searchParam);
         }
         
-        // Ajouter les filtres
+        // Ajouter les nouveaux filtres sélectionnés à l'URL
         rarityFilter.forEach(rarity_filter => {
             url.searchParams.append('rarity_filter', rarity_filter);
         });
@@ -47,26 +49,28 @@ document.addEventListener('DOMContentLoaded', function() {
             url.searchParams.append('sort_filter', sortFilter);
         }
         
-        // Rediriger vers la nouvelle URL avec les filtres
+        // Rediriger vers la nouvelle URL avec les filtres appliqués
         window.location.href = url.toString();
     });
 
-    // Réinitialiser les filtres
+    // Gestionnaire d'événement pour le bouton de réinitialisation des filtres
     resetFiltersButton.addEventListener('click', () => {
+        // Réinitialiser tous les champs du formulaire
         const form = document.getElementById('filterForm');
         form.reset();
 
+        // Création d'un objet URL pour manipuler les paramètres d'URL
         const url = new URL(window.location);
         
-        // Préserver le paramètre set et page
+        // Préserver les paramètres importants existants (set, page, recherche)
         const setParam = url.searchParams.get('set');
         const pageParam = url.searchParams.get('page');
         const searchParam = url.searchParams.get('search');
         
-        // Supprimer tous les paramètres
+        // Supprimer tous les paramètres de filtre actuels
         url.search = '';
         
-        // Restaurer les paramètres importants
+        // Restaurer uniquement les paramètres importants
         if (setParam) {
             url.searchParams.set('set', setParam);
         }

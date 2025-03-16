@@ -1,13 +1,15 @@
+// Attendre que le DOM soit complètement chargé avant d'exécuter le code
 document.addEventListener('DOMContentLoaded', function() {
-    // Vérifier si le carrousel existe sur cette page
+    // Vérifier si le carrousel existe sur cette page avant de continuer
     const carousel = document.getElementById('boosterCarousel');
     if (!carousel) return;
     
+    // Sélectionner les boutons de contrôle du carrousel
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const openBtn = document.getElementById('openBooster');
     
-    // Configuration des boosters avec leurs liens correspondants
+    // Configuration des boosters avec leurs informations et liens de redirection
     const boosterTypes = [
         { id: 1, name: "Sword & Shield", image: "/static/images/swsh1.png", link: "/cards?set=swsh1" },
         { id: 2, name: "Rebel Clash", image: "/static/images/swsh2.png", link: "/cards?set=swsh2" },
@@ -19,21 +21,23 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 8, name: "Fusion Strike", image: "/static/images/swsh8.png", link: "/cards?set=swsh8" },
     ];
     
-    let currentIndex = 0;
-    let radius = 400; 
-    let animating = false;
+    // Variables de contrôle du carrousel
+    let currentIndex = 0;         // Index du booster actuellement affiché
+    let radius = 400;             // Rayon du cercle pour l'effet 3D
+    let animating = false;        // Blocage pendant les animations
     
-    // Créer les éléments du carrousel
+    // Fonction pour créer les éléments visuels du carrousel
     function createCarouselItems() {
-        // Vider le carousel d'abord
+        // Vider le carousel pour éviter les doublons
         carousel.innerHTML = '';
         
+        // Créer un élément pour chaque booster
         boosterTypes.forEach((booster, index) => {
             const item = document.createElement('div');
             item.className = 'carousel-item';
             item.dataset.id = booster.id;
             
-            // Ajouter l'image
+            // Ajouter l'image du booster
             const img = document.createElement('img');
             img.src = booster.image;
             img.alt = booster.name;
@@ -42,31 +46,31 @@ document.addEventListener('DOMContentLoaded', function() {
             carousel.appendChild(item);
         });
         
-        // Positionner tous les éléments
+        // Positionner tous les éléments en cercle
         updateCarousel();
         
-        // Afficher le bouton d'ouverture
+        // Afficher le bouton d'ouverture une fois le carrousel chargé
         if (openBtn) openBtn.style.display = 'block';
     }
     
-    // Mettre à jour la position des éléments du carrousel
+    // Fonction pour mettre à jour la position des éléments dans le carrousel
     function updateCarousel() {
         const items = document.querySelectorAll('.carousel-item');
         const angleStep = 360 / items.length;
         
         items.forEach((item, index) => {
-            // Calculer la position (angle) pour chaque élément
+            // Calculer la position angulaire de chaque élément
             const angle = angleStep * ((index - currentIndex + items.length) % items.length);
             const radians = (angle * Math.PI) / 180;
             
-            // Calculer la position sur le cercle
+            // Calculer les coordonnées 3D sur le cercle
             const x = radius * Math.sin(radians);
             const z = radius * Math.cos(radians) - radius;
             
-            // Appliquer la transformation
+            // Appliquer la transformation 3D
             item.style.transform = `translate(calc(-50% + ${x}px), -50%) translateZ(${z}px)`;
             
-            // Ajuster l'opacité en fonction de la distance
+            // Ajuster l'opacité selon la position (plus transparent à l'arrière)
             const opacity = Math.max(0.3, 1 - Math.abs(angle) / 180);
             item.style.opacity = opacity;
             
@@ -74,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const zIndex = Math.round(100 - Math.abs(angle));
             item.style.zIndex = zIndex;
             
-            // Vérifier si c'est l'élément sélectionné (à l'avant)
+            // Marquer l'élément actuellement sélectionné (à l'avant)
             if (index === currentIndex) {
                 item.classList.add('selected');
             } else {
@@ -83,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Rotation vers un index spécifique
+    // Fonction pour faire tourner le carrousel vers un index spécifique
     function rotateToIndex(index) {
         if (animating || index === currentIndex) return;
         
@@ -91,27 +95,27 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex = index;
         updateCarousel();
         
-        // Rétablir l'état après l'animation
+        // Débloquer l'animation après la transition
         setTimeout(() => {
             animating = false;
-        }, 500); // Correspondant à la durée de transition CSS
+        }, 500); // Durée correspondant à la transition CSS
     }
     
-    // Rotation vers l'élément suivant
+    // Fonction pour passer au booster suivant
     function rotateNext() {
         if (animating) return;
         const nextIndex = (currentIndex + 1) % boosterTypes.length;
         rotateToIndex(nextIndex);
     }
     
-    // Rotation vers l'élément précédent
+    // Fonction pour revenir au booster précédent
     function rotatePrev() {
         if (animating) return;
         const prevIndex = (currentIndex - 1 + boosterTypes.length) % boosterTypes.length;
         rotateToIndex(prevIndex);
     }
     
-    // Fonction d'ouverture du booster - redirection vers la page correspondante
+    // Fonction pour "ouvrir" le booster (avec animation et redirection)
     function openBooster() {
         if (animating) return;
         
@@ -124,25 +128,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedItem.classList.remove('opening-animation');
                 animating = false;
                 
-                // Récupérer l'ID du booster sélectionné
+                // Récupérer les informations du booster sélectionné
                 const boosterId = parseInt(selectedItem.dataset.id);
                 const booster = boosterTypes.find(b => b.id === boosterId);
                 
-                // Rediriger vers la page correspondante
+                // Rediriger vers la page des cartes du set correspondant
                 if (booster && booster.link) {
                     window.location.href = booster.link;
                 }
                 
-            }, 1000);
+            }, 1000); // Durée de l'animation d'ouverture
         }
     }
     
-    // Gestionnaires d'événements
+    // Configuration des gestionnaires d'événements pour les boutons
     if (prevBtn) prevBtn.addEventListener('click', rotatePrev);
     if (nextBtn) nextBtn.addEventListener('click', rotateNext);
     if (openBtn) openBtn.addEventListener('click', openBooster);
     
-    // Support clavier
+    // Support des touches du clavier pour la navigation
     document.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowLeft') {
             rotatePrev();
@@ -153,43 +157,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Support tactile pour mobile
+    // Support des gestes tactiles pour la navigation sur mobile
     let touchStartX = 0;
     let touchEndX = 0;
     
+    // Détecter le début du toucher
     carousel.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
     });
     
+    // Détecter la fin du toucher et traiter le geste
     carousel.addEventListener('touchend', function(e) {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
     });
     
+    // Interprétation du geste de balayage
     function handleSwipe() {
-        const minSwipeDistance = 50;
+        const minSwipeDistance = 50; // Distance minimum pour considérer un balayage valide
         if (touchEndX < touchStartX - minSwipeDistance) {
-            // Swipe vers la gauche
+            // Balayage vers la gauche -> booster suivant
             rotateNext();
         } else if (touchEndX > touchStartX + minSwipeDistance) {
-            // Swipe vers la droite
+            // Balayage vers la droite -> booster précédent
             rotatePrev();
         }
     }
     
-    // Initialiser le carrousel
+    // Initialiser le carrousel au chargement
     createCarouselItems();
     
-    // Ajuster le rayon selon la taille de l'écran
+    // Fonction pour ajuster le rayon en fonction de la taille de l'écran
     function adjustRadius() {
         const containerWidth = document.querySelector('.carousel').clientWidth;
-        radius = Math.min(400, containerWidth * 0.45);
+        radius = Math.min(400, containerWidth * 0.45); // Limiter le rayon sur les petits écrans
         updateCarousel();
     }
     
-    // Appeler au redimensionnement
+    // Ajuster le rayon lors du redimensionnement de la fenêtre
     window.addEventListener('resize', adjustRadius);
     
-    // Appeler une fois au chargement
+    // Ajuster le rayon une première fois au chargement
     adjustRadius();
 });
