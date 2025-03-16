@@ -33,8 +33,8 @@ Ce projet a été conçu pour mettre en pratique les compétences suivantes :
 
 1. Clonez le dépôt GitHub :
 ```bash
-git clone https://github.com/votre-username/pokebooster.git
-cd pokebooster
+git clone https://github.com/Heliate/Projet_Groupie_Tracker.git
+cd .\TP_API_Pokemon\
 ```
 
 2. Assurez-vous que la structure du projet est correcte avec les dossiers suivants :
@@ -112,16 +112,8 @@ Les cartes Pokémon sont structurées avec les champs suivants :
 
 Les favoris des utilisateurs sont stockés dans un fichier JSON situé dans le dossier `data/`. Chaque utilisateur est identifié par un ID unique et peut stocker un nombre illimité de cartes dans ses favoris.
 
-## Fonctionnalités à venir
-
-- Système d'authentification des utilisateurs
-- Statistiques de collection
-- Création et partage de decks personnalisés
-- Mode multijoueur pour échanger des cartes
-
 ## Licence
 
 Ce projet est développé à des fins éducatives et n'a aucun lien officiel avec The Pokémon Company. Toutes les images et noms de Pokémon sont la propriété de leurs détenteurs respectifs.
 
 © 2025 PokeBooster - Projet étudiant
-
