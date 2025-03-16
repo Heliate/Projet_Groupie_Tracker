@@ -13,15 +13,14 @@
             <a href="/">
                 <img src="/static/images/logo_Pokemon.png" alt="Logo" width="117">
             </a>
-            <div class="search-container">
-                <form action="" method="GET">
+                <form class="search-container" action="" method="GET">
                     <input type="text" name="search" placeholder="Rechercher un Pokémon par son nom..." value="{{.SearchTerm}}">
                     <button type="submit">Rechercher</button>
                     {{if .SearchTerm}}
                         <a href="?set={{.NameSet}}">Effacer la recherche</a>
                     {{end}}
                 </form>
-            </div>
+                
             <h1>PokeBooster</h1>
             <div style="width: 50px;"></div>
         </div>

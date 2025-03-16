@@ -44,6 +44,8 @@ header img {
 .search-container {
     flex-grow: 1; /* Permet à la recherche de prendre toute la place disponible */
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center; /* Centre l’input */
 }
 
@@ -154,15 +156,6 @@ h2 {
     font-size: 1.2rem;
     margin: 10px 0;
     color: #1a1a1a;
-}
-
-/* Barre de recherche */
-.search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin: 25px 0;
 }
 
 .search-container input[type="text"] {
