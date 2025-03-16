@@ -33,7 +33,8 @@ header div {
 }
 
 header img {
-    height: 50px;
+    height: 60px;
+    margin-right: 15px;
 }
 
 header h1 {

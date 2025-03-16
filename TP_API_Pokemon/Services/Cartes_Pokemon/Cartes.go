@@ -67,3 +67,42 @@ func CardsBySetRequest(name string) []CartesPokemon {
 	}
 	return result
 }
+
+// GetCardByID récupère une carte spécifique par son ID
+func GetCardByID(cardID string) (CartesPokemon, error) {
+	url := fmt.Sprintf("https://api.tcgdex.net/v2/fr/cards/%s", cardID)
+
+	httpClient := http.Client{
+		Timeout: time.Second * 20,
+	}
+
+	req, errReq := http.NewRequest(http.MethodGet, url, nil)
+	if errReq != nil {
+		return CartesPokemon{}, fmt.Errorf("erreur lors de l'initialisation de la requête : %s", errReq.Error())
+	}
+
+	req.Header.Set("User-Agent", "Ynov Campus module groupie tracker")
+
+	res, errRes := httpClient.Do(req)
+	if errRes != nil {
+		return CartesPokemon{}, fmt.Errorf("erreur lors de l'exécution de la requête : %s", errRes.Error())
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode == http.StatusNotFound {
+		return CartesPokemon{}, fmt.Errorf("carte non trouvée (ID: %s)", cardID)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return CartesPokemon{}, fmt.Errorf("erreur code HTTP : %d, message : %s", res.StatusCode, res.Status)
+	}
+
+	var card CartesPokemon
+	errDecode := json.NewDecoder(res.Body).Decode(&card)
+	if errDecode != nil {
+		return CartesPokemon{}, fmt.Errorf("erreur lors du décodage des données : %s", errDecode.Error())
+	}
+
+	return card, nil
+}

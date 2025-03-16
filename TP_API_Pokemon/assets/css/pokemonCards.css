@@ -1,0 +1,588 @@
+/* Reset et styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Styles communs pour les pages de cartes et de favoris */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url('/static/images/background_pokemon.png');
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
+
+/* Header */
+header {
+    background-color: #ee1515;
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Conteneur flexible */
+header > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Espace entre les éléments */
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Logo */
+header img {
+    height: 60px;
+    flex-shrink: 0; /* Empêche le logo de se réduire */
+}
+
+/* Barre de recherche */
+.search-container {
+    flex-grow: 1; /* Permet à la recherche de prendre toute la place disponible */
+    display: flex;
+    justify-content: center; /* Centre l’input */
+}
+
+/* Input de recherche */
+.search-container input {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 60%; /* Ajuste la taille */
+    max-width: 400px; /* Empêche l’input d’être trop large */
+}
+
+/* Bouton */
+.search-container button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #1c4fd1;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Titre */
+header h1 {
+    color: white;
+    font-size: 2.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0; /* Empêche le titre de bouger */
+}
+
+
+/* Conteneur principal */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Navigation */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.nav-links a {
+    padding: 12px 25px; /* Légèrement élargi */
+    background: linear-gradient(to bottom, #3b6fb6, #2a5999);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    text-decoration: none;
+    min-width: 150px; /* Augmenté pour mieux s'adapter à l'espace */
+    box-shadow: 0 3px 0 #1a3a6d, 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.nav-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #1a3a6d, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links a:hover::before {
+    left: 100%;
+}
+
+.nav-links a:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 0 #1a3a6d, 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Titres */
+h1 {
+    color: #3b5ba7;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #1a1a1a;
+}
+
+/* Barre de recherche */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.search-container input[type="text"] {
+    padding: 12px;
+    width: 90%;
+    border: 2px solid #3b5ba7;
+    vertical-align: baseline;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: #ffcb05;
+    box-shadow: 0 0 8px rgba(255, 203, 5, 0.5);
+}
+
+.search-container button {
+    padding: 12px 25px; /* Légèrement élargi */
+    background: linear-gradient(to bottom, #3b6fb6, #2a5999);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    min-width: 150px; /* Augmenté pour mieux s'adapter à l'espace */
+    box-shadow: 0 3px 0 #1a3a6d, 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-container button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.search-container button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #1a3a6d, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.search-container button:hover::before {
+    left: 100%;
+}
+
+.search-container a {
+    transform: translateY(0);
+    box-shadow: 0 1px 0 #1a3a6d, 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Section de filtres */
+.filter-section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px solid #ffcb05;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.filter-section h1 {
+    text-align: center;
+    margin-top: 0;
+    color: #3b5ba7;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: rgba(59, 91, 167, 0.1);
+    border-radius: 15px;
+    transition: all 0.2s;
+}
+
+.filter-group label:hover {
+    background-color: rgba(59, 91, 167, 0.2);
+}
+
+.filter-group input {
+    margin-right: 5px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.buttons button {
+    padding: 12px 25px; /* Légèrement élargi */
+    background: linear-gradient(to bottom, #3b6fb6, #2a5999);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    min-width: 150px; /* Augmenté pour mieux s'adapter à l'espace */
+    box-shadow: 0 3px 0 #1a3a6d, 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.buttons button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.buttons button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #1a3a6d, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.buttons button:hover::before {
+    left: 100%;
+}
+
+.buttons button:active {    
+    transform: translateY(0);
+    box-shadow: 0 1px 0 #1a3a6d, 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#resetFiltersButton {
+    background-color: #3b5ba7;
+    color: white;
+}
+
+#resetFiltersButton:hover {
+    background-color: #e9ecef;
+}
+
+#applyFiltersButton {
+    background-color: #3b5ba7;
+    color: white;
+}
+
+#applyFiltersButton:hover {
+    background-color: #ffcb05;
+    color: #3b5ba7;
+}
+
+/* Messages */
+.no-cards-message, .search-error-message {
+    text-align: center;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+.no-cards-message {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.search-error-message {
+    background-color: rgba(255, 203, 5, 0.1);
+    color: #856404;
+    border: 1px solid rgba(255, 203, 5, 0.3);
+}
+
+/* Grille de cartes */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.card-item {
+    border: 3px solid #ffcb05;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-color: #3b5ba7;
+}
+
+.card-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.card-item:hover img {
+    transform: scale(1.05);
+}
+
+.card-item h2 {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #3b5ba7;
+}
+
+.card-item p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 5px 0;
+    padding: 3px 8px;
+    background-color: rgba(255, 203, 5, 0.2);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+/* Bouton favori */
+.favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.favorite-button.active {
+    color: #ffcb05;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.favorite-button:not(.active) {
+    color: #ccc;
+}
+
+.favorite-button:hover {
+    transform: scale(1.1);
+}
+
+.favorite-button:hover:not(.active) {
+    color: #ffcb05;
+}
+
+/* Bouton de suppression des favoris */
+.remove-favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.remove-favorite:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+}
+
+/* Pagination */
+.switch-Page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.switch-Page a {
+    padding: 12px 25px; /* Légèrement élargi */
+    background: linear-gradient(to bottom, #3b6fb6, #2a5999);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    font-weight: bold;
+    min-width: 150px; /* Augmenté pour mieux s'adapter à l'espace */
+    box-shadow: 0 3px 0 #1a3a6d, 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.switch-Page a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.switch-Page a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #1a3a6d, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.switch-Page a:hover::before {
+    left: 100%;
+}
+
+.switch-Page a:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 0 #1a3a6d, 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+    background-color: rgba(51, 51, 51, 0.9);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto;
+}
+
+footer a {
+    color: #ffcb05;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #ee1515;
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .search-container input[type="text"] {
+        width: 60%;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
+    }
+    
+    .card-item {
+        padding: 10px;
+    }
+    
+    .search-container input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .search-container button {
+        width: 100%;
+    }
+    
+    .nav-links a {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,64 @@
+{{define "favorites"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/pokemonCards.css">
+    <title>Mes cartes favorites</title>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="/static/images/logo_Pokemon.png" alt="Logo Pokemon">
+            <h1>PokeBooster</h1>
+            <div style="width: 50px;"></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="nav-links">
+            <a href="/">Accueil</a>
+            <a href="/cards">Catalogue</a>
+            <a href="/favoris">Mes Favoris</a>
+        </div>
+        
+        <h1>Mes Cartes Pokémon Favorites</h1>
+        
+        {{if .NoCardFound}}
+            <div class="no-cards-message">
+                <p>Vous n'avez pas encore de cartes favorites. Explorez le catalogue pour en ajouter !</p>
+            </div>
+        {{else}}
+            <div class="cards-container">
+                {{range .Cards}}
+                    <div class="card-item">
+                        <form action="/favoris/remove" method="POST">
+                            <input type="hidden" name="card_id" value="{{.ID}}">
+                            <input type="hidden" name="redirect" value="/favoris">
+                            <button type="submit" class="remove-favorite" title="Retirer des favoris">×</button>
+                        </form>
+                        <h2>{{.Name}} || {{.ID}}</h2>
+                        <img src="{{.Image}}/high.webp" alt="image du pokemon {{.Name}}">
+                        <p>{{.Rarity}}</p>
+                    </div>
+                {{end}}
+            </div>
+            <div class="switch-Page">
+                {{if gt .CurrentPage 1}}
+                <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+                {{end}}
+                <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+                {{if lt .CurrentPage .TotalPages}}
+                <a href="?page={{add .CurrentPage 1}}">Next</a>
+                {{end}}
+            </div>
+        {{end}}
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 PokeBooster - Projet étudiant | <a href="/cgu">Conditions Générales d'Utilisation</a></p>
+    </footer>
+</body>
+</html>
+{{end}}
